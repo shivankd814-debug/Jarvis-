@@ -1,0 +1,280 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JARVIS // Shivank Dwivedi</title>
+<meta name="theme-color" content="#05090d">
+<style>
+:root {
+  --bg:#05090d; --panel:#0a1219; --line:#17313a;
+  --cyan:#00e5ff; --green:#7cffb2; --text:#e6fbff;
+  --muted:#7996a3;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:system-ui,-apple-system,Segoe UI,sans-serif;
+  min-height:100vh;overflow-x:hidden;
+}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;
+  background:linear-gradient(#00e5ff08 1px,transparent 1px),
+  linear-gradient(90deg,#00e5ff08 1px,transparent 1px);
+  background-size:36px 36px;
+  mask-image:linear-gradient(to bottom,black,transparent 90%);
+}
+header{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:14px;padding:20px 6%;border-bottom:1px solid var(--line);
+  background:#05090ddd;position:sticky;top:0;z-index:10;backdrop-filter:blur(12px)
+}
+.logo{font-weight:900;letter-spacing:3px;font-size:19px}
+.logo span{color:var(--cyan)}
+.status{font-size:11px;letter-spacing:1px;color:var(--green)}
+.dot{display:inline-block;width:7px;height:7px;background:var(--green);
+border-radius:50%;margin-right:7px;box-shadow:0 0 12px var(--green)}
+nav{display:flex;gap:18px}
+nav a{color:var(--muted);font-size:12px;text-decoration:none}
+nav a:hover{color:var(--cyan)}
+main{width:min(1080px,90%);margin:auto}
+.hero{
+  display:grid;grid-template-columns:1fr 1fr;align-items:center;
+  gap:30px;min-height:510px;padding:55px 0 40px
+}
+.eyebrow{font-size:11px;letter-spacing:3px;color:var(--cyan)}
+h1{font-size:clamp(38px,6vw,67px);line-height:1.03;margin:18px 0}
+h1 span{color:var(--cyan);text-shadow:0 0 28px #00e5ff35}
+.intro{color:var(--muted);line-height:1.8;max-width:480px}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:25px}
+.btn{
+  display:inline-block;border:1px solid var(--cyan);padding:12px 17px;
+  color:var(--cyan);text-decoration:none;font-size:12px;letter-spacing:1px;
+  background:#00e5ff0b;cursor:pointer;border-radius:3px
+}
+.btn.primary{background:var(--cyan);color:#001014;font-weight:800}
+.btn:hover{box-shadow:0 0 22px #00e5ff35}
+.core-wrap{display:grid;place-items:center;min-height:320px;position:relative}
+.core{
+  width:210px;height:210px;border:1px solid #00e5ff88;border-radius:50%;
+  display:grid;place-items:center;position:relative;
+  box-shadow:0 0 30px #00e5ff13,inset 0 0 35px #00e5ff13;
+  animation:pulse 3s ease-in-out infinite
+}
+.core:before,.core:after{
+  content:"";position:absolute;border:1px dashed #00e5ff80;border-radius:50%;
+}
+.core:before{inset:-18px;animation:spin 16s linear infinite}
+.core:after{inset:25px;border-color:#7cffb288;animation:spin 10s linear infinite reverse}
+.core-icon{font-size:60px;color:var(--cyan);text-shadow:0 0 30px var(--cyan)}
+.orbit{position:absolute;width:255px;height:85px;border:1px solid #7cffb255;
+border-radius:50%;transform:rotate(-35deg)}
+.core-label{position:absolute;bottom:6px;color:var(--green);font-size:10px;letter-spacing:3px}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{50%{box-shadow:0 0 55px #00e5ff22,inset 0 0 45px #00e5ff18}}
+.section-title{font-size:12px;letter-spacing:3px;color:var(--cyan);margin:25px 0 16px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.panel{
+  background:linear-gradient(145deg,#0b161e,#070d12);
+  border:1px solid var(--line);padding:21px;border-radius:5px;
+  transition:.2s
+}
+.panel:hover{border-color:#00e5ff80;transform:translateY(-3px)}
+.panel .symbol{font-size:24px;color:var(--cyan)}
+.panel h3{font-size:15px;margin:13px 0 8px}
+.panel p{font-size:12px;line-height:1.7;color:var(--muted);margin:0}
+.tag{display:inline-block;color:var(--green);font-size:10px;margin-top:15px;
+border:1px solid #7cffb233;padding:5px 7px}
+.terminal{border:1px solid #17404a;background:#03080b;border-radius:5px;overflow:hidden}
+.term-head{padding:12px 15px;border-bottom:1px solid var(--line);
+display:flex;justify-content:space-between;font-size:11px;color:var(--muted)}
+.term-body{padding:17px;min-height:170px;font:13px/1.9 ui-monospace,monospace}
+.term-line{color:var(--green);white-space:pre-wrap;overflow-wrap:anywhere}
+.term-info{color:#a2c1cc}
+.input-row{display:flex;gap:9px;margin-top:10px}
+.input-row span{color:var(--green);padding-top:10px}
+input{
+  flex:1;min-width:0;background:transparent;color:white;border:0;
+  border-bottom:1px solid #21434d;padding:10px;font:13px monospace;outline:none
+}
+footer{margin-top:50px;padding:24px 5%;border-top:1px solid var(--line);
+text-align:center;color:var(--muted);font-size:11px;line-height:2}
+footer a{color:var(--cyan);text-decoration:none}
+@media(max-width:700px){
+  header{padding:16px 5%;flex-wrap:wrap}
+  nav{width:100%;justify-content:space-between;gap:8px}
+  .hero{grid-template-columns:1fr;padding-top:40px;gap:5px}
+  .core-wrap{min-height:290px;grid-row:1}
+  .core{width:175px;height:175px}
+  .orbit{width:220px}
+  .core-icon{font-size:48px}
+  .grid{grid-template-columns:1fr}
+  h1{font-size:46px}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">JARVIS<span>.</span></div>
+  <div class="status"><i class="dot"></i> DEMO SYSTEM ONLINE</div>
+  <nav>
+    <a href="#home">HOME</a>
+    <a href="#projects">PROJECTS</a>
+    <a href="#terminal">TERMINAL</a>
+    <a href="#about">ABOUT</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero" id="home">
+    <div>
+      <div class="eyebrow">PERSONAL AI INTERFACE // 001</div>
+      <h1>HELLO,<br>I'M <span>SHIVANK.</span></h1>
+      <p class="intro">
+        Developer in progress. Ethical hacking enthusiast.
+        Exploring AI, building projects, and learning how technology works.
+        Welcome to my futuristic digital workspace.
+      </p>
+      <div class="actions">
+        <a class="btn primary" href="#projects">EXPLORE PROJECTS ↗</a>
+        <a class="btn" href="#terminal">OPEN TERMINAL_</a>
+      </div>
+    </div>
+    <div class="core-wrap">
+      <div class="orbit"></div>
+      <div class="core"><div class="core-icon">✳</div></div>
+      <div class="core-label">J.A.R.V.I.S. CORE</div>
+    </div>
+  </section>
+
+  <div class="section-title">// SYSTEM OVERVIEW</div>
+  <section class="grid">
+    <article class="panel">
+      <div class="symbol">⌘</div><h3>DEVELOPMENT</h3>
+      <p>Learning programming, web development, debugging, and software design.</p>
+      <span class="tag">LEARNING MODE</span>
+    </article>
+    <article class="panel">
+      <div class="symbol">⌬</div><h3>CYBER SECURITY</h3>
+      <p>Exploring ethical hacking, security fundamentals, and legal lab-based practice.</p>
+      <span class="tag">ETHICAL ONLY</span>
+    </article>
+    <article class="panel">
+      <div class="symbol">◈</div><h3>ARTIFICIAL INTELLIGENCE</h3>
+      <p>Building ideas around AI assistants, useful tools, and smarter digital experiences.</p>
+      <span class="tag">EXPERIMENTAL</span>
+    </article>
+  </section>
+
+  <div class="section-title" id="projects">// PROJECT ARCHIVE</div>
+  <section class="grid">
+    <article class="panel">
+      <div class="symbol">◉</div><h3>CareerX AI</h3>
+      <p>An AI career platform concept designed to help people explore skills, careers, and learning.</p>
+      <span class="tag">PERSONAL PROJECT</span>
+    </article>
+    <article class="panel">
+      <div class="symbol">⟁</div><h3>JARVIS Interface</h3>
+      <p>This futuristic portfolio demo, featuring an animated core, responsive layout, and local terminal.</p>
+      <span class="tag">WEB DEMO</span>
+    </article>
+    <article class="panel">
+      <div class="symbol">⌕</div><h3>Security Lab</h3>
+      <p>A planned space for documenting cybersecurity concepts and authorized practice labs.</p>
+      <span class="tag">ROADMAP</span>
+    </article>
+  </section>
+
+  <div class="section-title" id="terminal">// JARVIS COMMAND TERMINAL</div>
+  <section class="terminal">
+    <div class="term-head"><span>SHIVANK@JARVIS:~</span><span>LOCAL DEMO</span></div>
+    <div class="term-body">
+      <div class="term-info">Welcome, Shivank. This is a simulated terminal.</div>
+      <div class="term-info">Type <span style="color:#7cffb2">help</span> to view available commands.</div>
+      <div id="output" aria-live="polite"></div>
+      <form class="input-row" id="commandForm">
+        <span>❯</span>
+        <input id="command" placeholder="Enter command..." autocomplete="off" aria-label="Enter terminal command">
+        <button class="btn" type="submit">RUN</button>
+      </form>
+    </div>
+  </section>
+
+  <div class="section-title" id="about">// OPERATOR PROFILE</div>
+  <section class="panel" style="margin-bottom:20px">
+    <h3>SHIVANK DWIVEDI <span style="color:#7cffb2;font-size:10px">● ACTIVE</span></h3>
+    <p>Interested in development, AI, and ethical cybersecurity. Currently building skills and turning ideas into projects.</p>
+    <div class="actions">
+      <a class="btn" href="https://github.com/shivankd814-debug" target="_blank" rel="noopener noreferrer">GITHUB ↗</a>
+      <a class="btn" href="https://www.instagram.com/itsshivank___/" target="_blank" rel="noopener noreferrer">INSTAGRAM ↗</a>
+      <a class="btn" href="mailto:careerxai.team@gmail.com">CONTACT ↗</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  JARVIS PERSONAL INTERFACE · BUILT BY SHIVANK DWIVEDI<br>
+  <span id="clock">INITIALIZING CLOCK...</span><br>
+  <span>Demo UI only — no real system access, hacking, or AI backend is connected.</span>
+</footer>
+
+<script>
+const clock = document.getElementById("clock");
+function updateClock() {
+  clock.textContent = new Date().toLocaleString("en-IN", {
+    dateStyle:"medium", timeStyle:"medium"
+  });
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+const form = document.getElementById("commandForm");
+const input = document.getElementById("command");
+const output = document.getElementById("output");
+
+const commands = {
+  help: "Available commands: help, about, projects, skills, time, status, clear",
+  about: "Operator: Shivank Dwivedi | Interests: development, AI, ethical cybersecurity.",
+  projects: "Project archive: CareerX AI, JARVIS Interface, Security Lab (planned).",
+  skills: "Learning roadmap: HTML, CSS, JavaScript, programming fundamentals, networking, security basics.",
+  status: "Demo interface: ONLINE | Local terminal: ACTIVE | Backend connection: NONE",
+  time: () => "Local time: " + new Date().toLocaleString("en-IN")
+};
+
+form.addEventListener("submit", function(event) {
+  event.preventDefault();
+  const cmd = input.value.trim().toLowerCase();
+  if (!cmd) return;
+
+  if (cmd === "clear") {
+    output.replaceChildren();
+    input.value = "";
+    return;
+  }
+
+  const line = document.createElement("div");
+  line.className = "term-line";
+  line.textContent = "❯ " + cmd;
+  output.appendChild(line);
+
+  const response = document.createElement("div");
+  response.className = "term-info";
+  response.style.whiteSpace = "pre-wrap";
+  response.style.overflowWrap = "anywhere";
+
+  if (commands[cmd]) {
+    response.textContent = typeof commands[cmd] === "function"
+      ? commands[cmd]() : commands[cmd];
+  } else {
+    response.textContent = 'Unknown command. Type "help" to see commands.';
+  }
+
+  output.appendChild(response);
+  input.value = "";
+  output.scrollIntoView({block:"nearest", behavior:"smooth"});
+});
+</script>
+</body>
+</html>
